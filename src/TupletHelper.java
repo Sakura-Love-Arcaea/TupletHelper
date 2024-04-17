@@ -118,11 +118,11 @@ public class TupletHelper {
     public void show() { //公因數是 >= INCLUDE //nth % count == 0 ori
         if (this.notes.isEmpty()) return;
         if (base == 0) return;
-        if (count % base != 0) {
-            System.out.print("ERROR");
-            return;
-        }
-        if ((gcd(nth, count) >= INCLUDE) && !(INCLUDE > base && count == base)) { //三個為一組的可以無視 //case 3/24  //澄清條件 1.每一bar都一樣（整除）2. 3是基數，不會除不了 3.他是3以上，但是只有三個
+//        if (count % base != 0) {
+//            System.out.print("ERROR");
+//            return;
+//        }
+        if ((count % base == 0) && (gcd(nth, count) >= INCLUDE) && !(INCLUDE > base && count == base)) { //三個為一組的可以無視 //case 3/24  //澄清條件 1.每一bar都一樣（整除）2. 3是基數，不會除不了 3.他是3以上，但是只有三個
             for (int i = 0; i < count; ++i) { // for test
                 if (this.notes.isEmpty()) {
                     System.out.print("裡面是空的你要我印出什麼");
@@ -140,7 +140,7 @@ public class TupletHelper {
 
             }
 
-        } else { //除不盡 會有剩下 24 9
+        } else if (count % base == 0){ //除不盡 會有剩下 24 9
             //降階 //除非有很好的算法
             int INCLUDE_REDUCE = gcd(count, INCLUDE);
             int merge_reduce = INCLUDE_REDUCE / 3 * 2;
@@ -160,6 +160,13 @@ public class TupletHelper {
                 }
 
             }
+        } else {
+            System.out.printf("\\times %d/%d { ", take_to_merge, INCLUDE);
+            for (int i = 0; i < count; ++i) {
+                System.out.printf("%s%d ", this.notes.poll(), each);
+            }
+            System.out.print("} ");
+
         }
         this.count = 0;
         System.out.println();

@@ -27,6 +27,7 @@ public class SimaiReader{
     }
     public void process(String token) {
         if (token.equals("E")) {
+//            if (T.count != 0) T.show();
             return;
         }
 
@@ -54,33 +55,37 @@ public class SimaiReader{
 
         String token;
         Scanner reader = null;
-        File fp = new File("/Users/lvjiayao/about_programs/simai_to_lilypond/simai_to_lilipond/src/input.txt");
+//        File fp = new File("/Users/lvjiayao/about_programs/simai_to_lilypond/simai_to_lilipond/src/input.txt");
+//        File fp = new File("./input.txt");
+        File fp = new File(args[0]);
         try {
             reader = new Scanner(fp);
             reader.useDelimiter("[)},]");
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR");
+            System.out.println("FILE ERROR");
         }
 
-
+        System.out.printf("\\header {\n" +
+                "\ttitle = \"%s\"\n" +
+                "\tcomposer = \"SakuraLoveArcaea\"\n" +
+                "}\n" +
+                "\\score {\n" +
+                "\\new StaffGroup <<\n" +
+                "\\new RhythmicStaff \\relative c'' { \n" +
+                "\\set Staff.midiInstrument = \"standard kit\"\n" +
+                "\\numericTimeSignature\n" +
+                "\\time 4/4\n", fp.getName().replaceFirst("[.][^.]+$", "").replace("_", " "));
 
         if (reader == null) return;
         while (reader.hasNext()) {
             token = reader.next().strip();
             S.process(token);
-//            System.out.println(token);
-
-
-
-
-//            if (token.equals("E")) {
-//                System.out.println("END");
-//            } else if (token.isEmpty()){
-//                System.out.println("is r");
-//            } else {
-//                System.out.println(token.strip());
-//
-//            }
         }
+
+        System.out.println("}\n" +
+                ">>\n" +
+                "\\layout {}\n" +
+                "\\midi {}\n" +
+                "}");
     }
 }

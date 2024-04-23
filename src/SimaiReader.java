@@ -3,13 +3,15 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class SimaiReader{
-    int nth;
-    float bpm;
+    public String pitch;
+    public int nth;
+    public float bpm;
     TupletHelper T;
-    public SimaiReader() {
-        this.T = new TupletHelper();
+    public SimaiReader(String pitch) {
+        this.T = new TupletHelper(pitch);
         this.nth = 0;
         this.bpm = 0;
+        this.pitch = pitch;
     }
     public boolean isTuplet(int num) {
         return num % 7 == 0 || num % 3 == 0 || num % 5 == 0;
@@ -44,14 +46,14 @@ public class SimaiReader{
         if(isTuplet(nth)) {
             T.join(token.isEmpty());
         } else {
-            System.out.print(token.isEmpty() ? "r" + nth + " " : "ees" + nth + " ");
+            System.out.print(token.isEmpty() ? "r" + nth + " " : pitch + nth + " ");
         }
 
     }
 
 
     public static void main(String[] args) {
-        SimaiReader S = new SimaiReader();
+        SimaiReader S = new SimaiReader("e");
 
         String token;
         Scanner reader = null;

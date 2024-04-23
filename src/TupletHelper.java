@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class TupletHelper {
-    final private String PITCH = "ees";
+    public String pitch = "e";
     public Queue<String> notes;
     public int nth;
     public int count;
@@ -10,9 +10,10 @@ public class TupletHelper {
     public int INCLUDE;
     public int take_to_merge;
     public int each;
-    public TupletHelper() {
+    public TupletHelper(String pitch) {
         this.notes = new LinkedList<>();
         this.count = 0;
+        this.pitch = pitch;
         setNth(0);
     }
     public TupletHelper(int nth) {
@@ -21,12 +22,6 @@ public class TupletHelper {
         setNth(nth);
     }
     public void setNth(int nth) {
-//        if (this.nth != 0 && this.nth == nth) { //剛開始(0 -> n) && nth不變
-//            return;
-//        } else {  //nth變化 -> 輸出先前的， 變回去0也算
-//            this.show();
-//            System.out.println();
-//        }
         this.nth = nth;
         this.notes.clear(); //其實不用？ 因為輸出完都沒有東西了
         this.count = 0;
@@ -77,6 +72,25 @@ public class TupletHelper {
                 this.each = 32;
                 this.take_to_merge = 8; // 4th
                 this.base = 3;
+                break;
+            case 96:
+                this.INCLUDE = 24;
+                this.each = 64;
+                this.take_to_merge = 16; // 4th
+                this.base = 3;
+                break;
+            case 192:
+                this.INCLUDE = 48;
+                this.each = 128;
+                this.take_to_merge = 32; // 4th
+                this.base = 3;
+                break;
+            case 384:
+                this.INCLUDE = 96;
+                this.each = 256;
+                this.take_to_merge = 64; // 4th
+                this.base = 3;
+                break;
             default:
 //                System.out.println("not support");
                 return;
@@ -94,7 +108,7 @@ public class TupletHelper {
         if (r) {
             this.notes.offer("r");
         } else {
-            this.notes.offer(PITCH);
+            this.notes.offer(pitch);
         }
         return count++;
     }
